@@ -1,6 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
+import DarkMode from "./components/dark-mode";
 import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
 import Home from "./pages/home";
@@ -13,6 +14,7 @@ function App() {
   return (
     <>
       <Header />
+
       <Home />
       <Footer />
     </>
