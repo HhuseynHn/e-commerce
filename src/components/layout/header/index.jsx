@@ -1,6 +1,7 @@
 /** @format */
 
 import React, { memo, useState } from "react";
+import { Link } from "react-router-dom";
 import DarkMode from "../../dark-mode";
 
 const Header = () => {
@@ -8,7 +9,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 mb-[50px] sticky top-0">
+      <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 mb-[50px] sticky top-0 z-40">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a
             href="#"
@@ -53,7 +54,7 @@ const Header = () => {
                   href="#"
                   className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
                   aria-current="page">
-                  Home
+                  <Link to="/home">Home</Link>
                 </a>
               </li>
               <li>
@@ -61,7 +62,7 @@ const Header = () => {
                   id="dropdownNavbarLink"
                   data-dropdown-toggle="dropdownNavbar"
                   className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                  About{" "}
+                  About
                   <svg
                     className="w-2.5 h-2.5 ms-2.5"
                     aria-hidden="true"
@@ -172,7 +173,7 @@ const Header = () => {
                 <a
                   href="#"
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  Services
+                  <Link to="/service">Services</Link>
                 </a>
               </li>
               <li>
@@ -186,7 +187,7 @@ const Header = () => {
                 <a
                   href="#"
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  Contact
+                  ,<Link to="/contact">Contact</Link>
                 </a>
               </li>
               <li>
