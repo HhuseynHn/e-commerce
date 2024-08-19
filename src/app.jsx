@@ -7,13 +7,12 @@ import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
 import Contact from "./pages/contact-page";
 import Home from "./pages/home-page";
+import ProductDetails from "./pages/product-details";
 import ServicePage from "./pages/service-page";
 
 function App() {
-  // const [text, setText] = useState();
-
   console.log("APPP render olunur");
-  let a = 9
+
   return (
     <>
       <Header />
@@ -22,6 +21,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/service" element={<ServicePage />} />
         <Route path="/home" element={<Home />} />
+        <Route
+          path="/product-details/:productId"
+          element={<ProductDetails />}
+        />
       </Routes>
 
       <Footer />

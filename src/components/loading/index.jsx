@@ -2,13 +2,12 @@
 
 import React from "react";
 
-
-const Contact = () => {
+const Loading = () => {
   return (
     <>
-      <h2>Contact page</h2>
+      <h2>Loading....</h2>
     </>
   );
 };
 
-export default Contact;
+export default Loading;
