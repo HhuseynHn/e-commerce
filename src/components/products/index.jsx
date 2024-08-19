@@ -2,6 +2,7 @@
 
 import axios, { Axios } from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 const Products = () => {
   const [products, setProducts] = useState([]);
 
@@ -16,17 +17,18 @@ const Products = () => {
       <div className="flex gap-5 flex-wrap w-10/12 ml-auto mr-auto justify-between">
         {products.map((product) => (
           <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
+            <Link to={`/product-details/${product.id}`}>
               <img
-                class="p-8 rounded-t-lg"
-                src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-ultra2-shop-202309?wid=1440&hei=640&fmt=jpeg&qlt=90&.v=1692837388854"
+                class="p-8 rounded-t-lg w-full h-[330px]"
+                src={product.image}
                 alt="product image"
               />
-            </a>
+            </Link>
+
             <div class="px-5 pb-5">
               <a href="#">
                 <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
+                  {product.title}
                 </h5>
               </a>
               <div class="flex items-center mt-2.5 mb-5">
@@ -73,12 +75,12 @@ const Products = () => {
                   </svg>
                 </div>
                 <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-                  5.0
+                  {product.rating.rate}
                 </span>
               </div>
               <div class="flex items-center justify-between">
                 <span class="text-3xl font-bold text-gray-900 dark:text-white">
-                  $999
+                  ${product.price}
                 </span>
                 <a
                   href="#"
