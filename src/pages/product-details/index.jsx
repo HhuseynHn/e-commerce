@@ -10,11 +10,11 @@ const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     axios.get(`https://fakestoreapi.com/products/${productId}`).then((data) => {
       setProduct(data.data);
       setIsLoading(false);
-      console.log(product);
     });
   }, []);
 
@@ -28,8 +28,8 @@ const ProductDetails = () => {
 
   return (
     <>
-      <h2>{product.title}</h2>
       <img src={product.image} alt="" />
+      <h2>{product.title}</h2>
       <h2>{product.price}</h2>
     </>
   );

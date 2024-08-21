@@ -3,14 +3,21 @@
 import axios, { Axios } from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "../loading";
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get("https://fakestoreapi.com/products").then((data) => {
       setProducts(data.data);
+      setIsLoading(false);
     });
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
