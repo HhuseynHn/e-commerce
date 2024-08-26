@@ -9,7 +9,6 @@ function DarkMode() {
 
   const darkModeHundler = () => {
     setDark(!dark);
-    console.log(dark);
 
     if (!dark) {
       document.body.classList.add("dark");

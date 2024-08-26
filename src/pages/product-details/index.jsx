@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Loading from "../../components/loading";
 import { NotFound } from "../not-found";
+import { AiOutlineClose } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -28,9 +30,30 @@ const ProductDetails = () => {
 
   return (
     <>
-      <img src={product.image} alt="" />
-      <h2>{product.title}</h2>
-      <h2>{product.price}</h2>
+      <div className="relative flex mb-[70px] mx-auto w-8/12 bg-slate-100 p-4 gap-x-9 rounded-lg">
+        <div className="absolute text-xl right-[-17px] top-[-17px] cursor-pointer">
+          <Link to={"/home"}>
+            <AiOutlineClose />
+          </Link>
+        </div>
+        <div className="w-2/3 min-w-40 bg-white rounded-lg p-2">
+          <img src={product.image} alt="" className="rounded-lg" />
+        </div>
+        <div className="bg-white rounded-lg flex flex-col gap-y-2 p-4 w-full text-slate-500 text-sm">
+          <h2 className="mb-10 text-2xl text-slate-900 font-bold">{`${product.title}`}</h2>
+          <h2>{`Name: ........ ${product.title}`}</h2>
+          <h2>{`Seria: ........ 000${product.id}`}</h2>
+          <h2>{`Category: ........ ${product.category}`}</h2>
+          <h2>{`Description: ........ ${product.description}`}</h2>
+          <h2>{`Rateting: ........ ${product.rating.rate}`}</h2>
+          <h2>{`Price: ........ ${product.price}`}</h2>
+          <a
+            href="#"
+            className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-32 mt-16">
+            Add to cart
+          </a>
+        </div>
+      </div>
     </>
   );
 };
