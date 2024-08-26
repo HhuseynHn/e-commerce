@@ -9,6 +9,7 @@ const Home = () => {
   return (
     <>
       <Courusel />
+
       <Products />
     </>
   );

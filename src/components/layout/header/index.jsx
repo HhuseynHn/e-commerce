@@ -3,6 +3,9 @@
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import DarkMode from "../../dark-mode";
+import { FaBeer } from "react-icons/fa";
+import { RiAccountCircleLine } from "react-icons/ri";
+import Language from "../../language";
 
 const Header = () => {
   const [text, setText] = useState();
@@ -193,6 +196,19 @@ const Header = () => {
 
               <li className="flex items-center justify-center">
                 <DarkMode />
+              </li>
+
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link to="/login">
+                    <RiAccountCircleLine />
+                  </Link>
+                </a>
+              </li>
+              <li>
+                <Language />
               </li>
             </ul>
           </div>

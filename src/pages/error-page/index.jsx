@@ -3,10 +3,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { TERipple } from "tw-elements-react";
-export function ErrorSection7() {
+export function ErrorPage() {
   return (
     <>
-      <div className="h-screen mx-auto grid place-items-center text-center px-8">
+      <div className="mx-auto grid place-items-center text-center px-8">
         <div>
           <div
             variant="h1"
@@ -35,4 +35,12 @@ export function ErrorSection7() {
   );
 }
 
-export default ErrorSection7;
+export default ErrorPage;
+
+
+
+
+
+
+
+
