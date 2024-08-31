@@ -30,17 +30,17 @@ const ProductDetails = () => {
 
   return (
     <>
-      <div className="relative flex mb-[70px] mx-auto w-8/12 bg-slate-100 p-4 gap-x-9 rounded-lg">
-        <div className="absolute text-xl right-[-17px] top-[-17px] cursor-pointer">
+      <div className="relative flex mb-[70px] mx-auto w-8/12 bg-slate-100 dark:bg-gray-800 p-4 gap-x-9 rounded-lg">
+        <div className="absolute dark:text-gray-300 text-xl right-[-17px] top-[-17px] cursor-pointer">
           <Link to={"/home"}>
             <AiOutlineClose />
           </Link>
         </div>
-        <div className="w-2/3 min-w-40 bg-white rounded-lg p-2">
+        <div className="w-2/3 min-w-40 bg-white dark:bg-gray-700 rounded-lg p-2">
           <img src={product.image} alt="" className="rounded-lg" />
         </div>
-        <div className="bg-white rounded-lg flex flex-col gap-y-2 p-4 w-full text-slate-500 text-sm">
-          <h2 className="mb-10 text-2xl text-slate-900 font-bold">{`${product.title}`}</h2>
+        <div className="bg-white dark:bg-gray-700 rounded-lg flex flex-col gap-y-2 p-4 w-full text-slate-500 dark:text-gray-300 text-sm">
+          <h2 className="mb-10 text-2xl text-slate-900 dark:text-white font-bold">{`${product.title}`}</h2>
           <h2>{`Name: ........ ${product.title}`}</h2>
           <h2>{`Seria: ........ 000${product.id}`}</h2>
           <h2>{`Category: ........ ${product.category}`}</h2>

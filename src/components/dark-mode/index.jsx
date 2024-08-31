@@ -1,37 +1,62 @@
 /** @format */
-import { IoMoon } from "react-icons/io5";
-import { IoSunny } from "react-icons/io5";
 
-import { useState } from "react";
-import "./dark-mode.css";
-function DarkMode() {
-  const [dark, setDark] = useState(false);
+// /** @format */
+// import { IoMoon } from "react-icons/io5";
+// import { IoSunny } from "react-icons/io5";
 
-  const darkModeHundler = () => {
-    setDark(!dark);
+// import { useState } from "react";
 
-    if (!dark) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
+// function DarkMode() {
+
+//   const darkModeHundler = () => {
+
+//   };
+
+//   return (
+//     <>
+//       <div className="bg-white-100 items-center flex items-center justify-center">
+//         <button onClick={() => darkModeHundler()}>
+//           {
+//             dark ? (
+//               <IoMoon />
+//             ) : (
+//               <IoSunny /> // render sunny when dark is true
+//             ) // render moon when dark is false
+//           }
+//         </button>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default DarkMode;
+
+import React, { useState } from "react";
+
+import { DarkModeSwitch } from "react-toggle-dark-mode";
+import useDarkSide from "./dark-mode";
+
+
+export default function DarkMode() {
+  const [colorTheme, setTheme] = useDarkSide();
+  const [darkSide, setDarkSide] = useState(
+    colorTheme === "light" ? true : false
+  );
+
+  const toggleDarkMode = (checked) => {
+    setTheme(colorTheme);
+    setDarkSide(checked);
   };
 
   return (
     <>
-      <div className="bg-white-100 items-center flex items-center justify-center">
-        <button onClick={() => darkModeHundler()}>
-          {
-            dark ? (
-              <IoMoon />
-            ) : (
-              <IoSunny /> // render sunny when dark is true
-            ) // render moon when dark is false
-          }
-        </button>
+      <div>
+        <DarkModeSwitch
+          checked={darkSide}
+          onChange={toggleDarkMode}
+          size={16}
+        />
       </div>
     </>
   );
 }
-
-export default DarkMode;
