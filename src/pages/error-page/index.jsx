@@ -6,7 +6,7 @@ import { TERipple } from "tw-elements-react";
 export function ErrorPage() {
   return (
     <>
-      <div className="mx-auto grid place-items-center text-center px-8">
+      <div className="mx-auto grid place-items-center text-center px-8 mb-40">
         <div>
           <div
             variant="h1"

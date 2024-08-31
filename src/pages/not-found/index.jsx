@@ -7,7 +7,7 @@ import { TERipple } from "tw-elements-react";
 export const NotFound = () => {
   return (
     <>
-      <div className="text-center">
+      <div className="text-center mb-40">
         <p className="font-semibold text-indigo-600 text-9xl">404</p>
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
           Page not found

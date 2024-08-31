@@ -1,13 +1,33 @@
 /** @format */
 
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../../scheme/login-validation";
+import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { withTranslation } from "react-i18next";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export function LoginPage() {
-  const handleSubmit = (values) => {
-    console.log("Form data", values);
-  };
+function LoginPage(props) {
+  const navigate = useNavigate();
+
+  const [openModal, setOpenModal] = useState(true);
+  const emailInputRef = useRef(null);
+
+  const { t } = props;
+
+  const notify = () =>
+    toast.success(t("Successfully"), {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
   const formik = useFormik({
     initialValues: {
@@ -15,40 +35,176 @@ export function LoginPage() {
       password: "Password123",
     },
     validationSchema: loginValidationSchema,
-    onSubmit: handleSubmit,
+    onSubmit: (values) => {
+      const existUser = { email: "huseyn@email.com", password: "Paswrd123456" };
+
+      if (
+        values.email == existUser.email &&
+        values.password == existUser.password
+      ) {
+        notify();
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      } else {
+        console.log("Dogru deyil");
+      }
+    },
   });
 
+  let homPge = "<< Got to Home";
+  let logPage = "Go to Login >>";
+  // formik.handleSubmit;
   return (
     <>
-      <div className="flex justify-center mb-[50px]">
-        <form className="flex max-w-md w-[300px] flex-col gap-4">
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="email1" value="Your email" />
+      <form
+        action=""
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log("Hello");
+        }}>
+        <div className=" flex gap-x-2 justify-center mb-80">
+          <Button className="border border-cyan-300 bg-white text-cyan-900 focus:ring-4 focus:ring-cyan-300 enabled:hover:bg-cyan-100 dark:border-cyan-600 dark:bg-cyan-600 dark:text-white dark:focus:ring-cyan-700 dark:enabled:hover:border-cyan-700 dark:enabled:hover:bg-cyan-700">
+            <Link to="/home">{homPge} </Link>
+          </Button>
+          <Button
+            className="border border-cyan-300 bg-white text-cyan-900 focus:ring-4 focus:ring-cyan-300 enabled:hover:bg-cyan-100 dark:border-cyan-600 dark:bg-cyan-600 dark:text-white dark:focus:ring-cyan-700 dark:enabled:hover:border-cyan-700 dark:enabled:hover:bg-cyan-700"
+            onClick={() => setOpenModal(true)}>
+            {logPage}
+          </Button>
+        </div>
+        <Modal
+          show={openModal}
+          size="md"
+          popup
+          onClose={() => setOpenModal(false)}
+          initialFocus={emailInputRef}>
+          <Modal.Header />
+          <Modal.Body>
+            <div className="space-y-6">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                {t("Sign in to our platform")}
+              </h3>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="email" value={t("Your email")} />
+                </div>
+                <TextInput
+                  id="email"
+                  name="email"
+                  ref={emailInputRef}
+                  placeholder="name@company.com"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.email}
+                  </p>
+                )}
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="password" value={t("Your password")} />
+                </div>
+                <TextInput
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                />
+                {formik.touched.password && formik.errors.password && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {formik.errors.password}
+                  </p>
+                )}
+              </div>
+              <div className="flex justify-between">
+                <div className="flex items-center gap-2">
+                  <Checkbox id="remember" />
+                  <Label htmlFor="remember">{t("Remember me")}</Label>
+                </div>
+                <a
+                  href="#"
+                  className="text-sm text-cyan-700 hover:underline dark:text-cyan-500">
+                  {t("Lost Password?")}
+                </a>
+              </div>
+              <div className="w-full">
+                <Button
+                  type="submit"
+                  className="border border-cyan-300 bg-white text-cyan-900 focus:ring-4 focus:ring-cyan-300 enabled:hover:bg-cyan-100 dark:border-cyan-600 dark:bg-cyan-600 dark:text-white dark:focus:ring-cyan-700 dark:enabled:hover:border-cyan-700 dark:enabled:hover:bg-cyan-700">
+                  {t("Log in to your account")}
+                </Button>
+              </div>
+              <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
+                {t("Not registered?")}&nbsp;
+                <a
+                  href="#"
+                  className="text-cyan-700 hover:underline dark:text-cyan-500">
+                  {t("Create account")}
+                </a>
+              </div>
             </div>
-            <TextInput
-              id="email1"
-              type="email"
-              placeholder="name@flowbite.com"
-              required
-            />
-          </div>
-          <p className="text-red-600">Error email</p>
-          <div>
-            <div className="mb-2 block">
-              <Label htmlFor="password1" value="Your password" />
-            </div>
-            <TextInput id="password1" type="password" required />
-          </div>
-          <p className="text-red-600">Error password</p>
+          </Modal.Body>
+        </Modal>
+      </form>
 
-          <button
-            type="submit"
-            className="inline-block rounded border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10 bg-black">
-            Log in
-          </button>
-        </form>
-      </div>
+      <form action="" onSubmit={formik.handleSubmit}>
+        <div>
+          <div className="mb-2 block">
+            <Label htmlFor="email" value="Your email" />
+          </div>
+          <TextInput
+            id="email"
+            name="email"
+            ref={emailInputRef}
+            placeholder="name@company.com"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            required
+          />
+          {formik.touched.email && formik.errors.email && (
+            <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
+          )}
+        </div>
+
+        <TextInput
+          id="password"
+          name="password"
+          type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          required
+        />
+        {formik.touched.password && formik.errors.password && (
+          <p className="text-red-500 text-sm mt-1">{formik.errors.password}</p>
+        )}
+
+        <button type="submit">OKK</button>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
+      </form>
     </>
   );
 }
+
+export default withTranslation()(LoginPage);

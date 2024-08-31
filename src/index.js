@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import "flowbite";
 import "flowbite/dist/flowbite.css";
+import i18n from "./config/i18n";
 
 import App from "./app";
 import { BrowserRouter } from "react-router-dom";

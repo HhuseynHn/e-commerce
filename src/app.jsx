@@ -7,7 +7,8 @@ import Header from "./components/layout/header";
 import Contact from "./pages/contact-page";
 import ErrorPage from "./pages/error-page";
 import Home from "./pages/home-page";
-import { LoginPage } from "./pages/login-page";
+import LoginPage from "./pages/login-page";
+
 import ProductDetails from "./pages/product-details";
 import ServicePage from "./pages/service-page";
 
