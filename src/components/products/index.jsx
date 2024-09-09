@@ -9,10 +9,15 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products").then((data) => {
-      setProducts(data.data);
-      setIsLoading(false);
-    });
+    axios
+      .get("https://fakestoreapi.com/products")
+      .then((data) => {
+        setProducts(data.data);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   if (isLoading) {

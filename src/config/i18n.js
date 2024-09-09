@@ -17,17 +17,24 @@ i18n.use(initReactI18next).init({
         "Not registered?": "Not registered?",
         "Create account": "Create account",
         //------------
+        "Login Now": "Login Now",
+        "The email or password is incorrect!!!":
+          "The email or password is incorrect!!!",
+        "User name:": "User name:",
+        "Password:": "Password:",
+        Login: "Login",
+
         eCommerce: "eCommerce",
         Products: "Products",
         About: "About",
         Services: "Services",
-        //------
+
         Pricing: "Pricing",
         Contact: "Contact",
 
         Username: "Username",
         "Display Name": "Display Name",
-        Password: "Password",
+
         "Password Repeat": "Password Repeat",
         Login: "Login",
         "Sign in to our platform": "Sign in to our platform",
@@ -141,6 +148,14 @@ i18n.use(initReactI18next).init({
         "Log in to your account": "Hesabına daxil ol",
         "Not registered?": "Qeydiyyatın yoxdur?",
         "Create account": "Hesab yarat",
+
+        "Login Now": "Indi daxil",
+        "The email or password is incorrect!!!":
+          "Email və ya pasvord doğru deyil!!!",
+        "User name:": "İstifadəçi adı:",
+        "Password:": "Parol:",
+        Login: "Daxil ol",
+
         eCommerce: "eTicarət",
         Products: "Məhsullar",
         About: "Haqqımızda",
@@ -149,7 +164,7 @@ i18n.use(initReactI18next).init({
         Contact: "Əlaqə",
         Username: "İstifadəçi Adı",
         "Display Name": "Tərcih Edilən Ad",
-        Password: "Parol",
+
         "Password Repeat": "Parolu Təkrarla",
         Login: "Sistemə Gir",
         Logout: "Çıx",

@@ -1,9 +1,10 @@
 /** @format */
 
-// import React, { useState } from "react";
+import React, { useState } from "react";
 import { Route, Routes, useParams } from "react-router-dom";
 import Footer from "./components/layout/footer";
 import Header from "./components/layout/header";
+import EnhancedTable from "./pages/basket-page";
 import Contact from "./pages/contact-page";
 import ErrorPage from "./pages/error-page";
 import Home from "./pages/home-page";
@@ -30,6 +31,7 @@ function App() {
           element={<ProductDetails />}
         />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/basket" element={<EnhancedTable />} /> // basket
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
