@@ -3,10 +3,11 @@
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
 import DarkMode from "../../dark-mode";
-import { FaBeer } from "react-icons/fa";
-import { RiAccountCircleLine } from "react-icons/ri";
+
+import { VscAccount } from "react-icons/vsc";
 import Language from "../../language";
 import { withTranslation } from "react-i18next";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 const Header = (props) => {
   const [text, setText] = useState();
   const { t } = props;
@@ -15,9 +16,7 @@ const Header = (props) => {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 mb-[50px] sticky top-0 z-40">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
-            href="#"
-            className="flex items-center space-x-3 rtl:space-x-reverse">
+          <div className="flex items-center space-x-3 rtl:space-x-reverse">
             <img
               src="https://c8.alamy.com/comp/2HWCRBR/trolley-shopping-cart-on-letter-e-initial-online-and-shopping-logo-concept-template-2HWCRBR.jpg"
               className="h-8"
@@ -26,19 +25,16 @@ const Header = (props) => {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               {t("eCommerce")}
             </span>
-          </a>
+          </div>
 
           <div
             className="hidden w-full md:block md:w-auto"
             id="navbar-multi-level">
             <ul className="flex items-center flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 ">
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
-                  aria-current="page">
-                  <Link to="/home">{t("Products")}</Link>
-                </a>
+              <li
+                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
+                aria-current="page">
+                <Link to="/home">{t("Products")}</Link>
               </li>
               <li>
                 <button
@@ -68,12 +64,8 @@ const Header = (props) => {
                   <ul
                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownLargeButton">
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Dashboard
-                      </a>
+                    <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      Dashboard
                     </li>
                     <li aria-labelledby="dropdownNavbarLink">
                       <button
@@ -104,91 +96,62 @@ const Header = (props) => {
                         <ul
                           className="py-2 text-sm text-gray-700 dark:text-gray-200"
                           aria-labelledby="doubleDropdownButton">
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                              Overview
-                            </a>
+                          <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                            Overview
                           </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                              My downloads
-                            </a>
+                          <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                            My downloads
                           </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                              Billing
-                            </a>
+                          <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                            Billing
                           </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                              Rewards
-                            </a>
+                          <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                            Rewards
                           </li>
                         </ul>
                       </div>
                     </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Earnings
-                      </a>
+                    <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      Earnings
                     </li>
                   </ul>
                   <div className="py-1">
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                       Sign out
-                    </a>
+                    </div>
                   </div>
                 </div>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  <Link to="/service">{t("Services")}</Link>
-                </a>
+              <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                <Link to="/service">{t("Services")}</Link>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  {t("Pricing")}
-                </a>
+              <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                {t("Pricing")}
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  <Link to="/contact">{t("Contact")}</Link>
-                </a>
+              <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                <Link to="/contact">{t("Contact")}</Link>
               </li>
 
               <li className="flex items-center justify-center">
                 <DarkMode />
               </li>
 
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                  <Link to="/login">
-                    <RiAccountCircleLine />
-                  </Link>
-                </a>
+              <li className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                <Link className="flex gap-x-1" to="/login">
+                  <VscAccount />
+                  <span className="text-xs cursor-pointer">Log in</span>
+                </Link>
               </li>
               <li>
                 <Language />
+              </li>
+              <li>
+                <Link
+                  to="/basket"
+                  className="flex dark:text-white hover:text-blue-600 gap-x-1 items-center cursor-pointer">
+                  <AiOutlineShoppingCart />
+                  <h3 className="text-xs">Basket</h3>
+                </Link>
               </li>
             </ul>
           </div>
