@@ -1,6 +1,6 @@
 /** @format */
 
-import * as React from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -26,12 +26,16 @@ import { visuallyHidden } from "@mui/utils";
 import { AiOutlineMinusCircle } from "react-icons/ai";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
-function createData(id, name, image, amount, price, total) {
+import { CardContext } from "../../context/card-context";
+import Button from "@mui/material/Button";
+import RemoveItemModal from "../../components/basket-modal/remove-item-modal";
+import { Link } from "react-router-dom";
+function createData(id, name, image, count, price, total) {
   return {
     id,
     name,
     image,
-    amount,
+    count,
     price,
     total,
   };
@@ -118,10 +122,10 @@ const headCells = [
     label: "Product name",
   },
   {
-    id: "amount",
+    id: "count",
     numeric: true,
     disablePadding: false,
-    label: "AMOUNT",
+    label: "COUNT",
   },
   {
     id: "price",
@@ -169,12 +173,14 @@ function EnhancedTableHead(props) {
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}>
+            sortDirection={orderBy === headCell.id ? order : false}
+            className="dark:text-white">
             {headCell.id !== "image" ? (
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}>
+                onClick={createSortHandler(headCell.id)}
+                className="dark:text-white">
                 {headCell.label}
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
@@ -230,7 +236,7 @@ function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <div className="w-full flex items-center">
-          <div className="h-1.5 flex-grow  bg-slate-100"></div>
+          <div className="h-1.5 flex-grow bg-slate-100 dark:bg-gray-600"></div>
           <Typography
             sx={{
               display: "flex",
@@ -245,7 +251,7 @@ function EnhancedTableToolbar(props) {
             component="div">
             Basket
           </Typography>
-          <div className="h-1.5 flex-grow bg-slate-100"></div>
+          <div className="h-1.5 flex-grow bg-slate-100 dark:bg-gray-600"></div>
         </div>
       )}
 
@@ -277,6 +283,23 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { basket, deleteItem, addToCard, removeFromCard } =
+    useContext(CardContext);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+
+  const showDeleteModal = (product) => {
+    setProductToDelete(product);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    deleteItem(productToDelete);
+    setIsModalOpen(false);
+  };
+  const hundelCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -329,118 +352,166 @@ export default function EnhancedTable() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - basket.products.length)
+      : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      [...rows]
-        .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage]
+  const visibleRows = basket.products.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
   );
 
   return (
     <Box
-      className="mx-auto dark:bg-"
       sx={{
         width: "70%",
+        mx: "auto",
       }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}>
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+      <Paper sx={{ width: "100%", mb: 6, pb: 6 }}>
+        {/* Conditional Rendering: If basket is empty, display "Basket is empty" */}
+        {basket.products.length === 0 ? (
+          <Typography
+            variant="h6"
+            align="center"
+            sx={{ padding: 2, fontSize: "24px", fontWeight: "bold" }}
+            className="dark:text-white font-bold">
+            <div className="flex items-center gap-x-6 justify-center">
+              <div className="w-64 h-1.5 bg-slate-300"></div>
+              <div className="text-slate-400">Basket is empty</div>
+              <div className="w-64 h-1.5 bg-slate-300"></div>
+            </div>
+          </Typography>
+        ) : (
+          <>
+            {/* Table Headers (Hidden when basket is empty) */}
+            <Typography
+              variant="h6"
+              align="center"
+              sx={{ padding: 2, fontSize: "24px", fontWeight: "bold" }}
+              className="dark:text-white">
+              <div className="flex items-center gap-x-6 justify-center">
+                <div className="w-64 h-1 bg-slate-300"></div>
+                <div>
+                  <p>Your orders</p>
+                </div>
+                <div className="w-64 h-1 bg-slate-300"></div>
+              </div>
+            </Typography>
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                size={dense ? "small" : "medium"}>
+                <TableHead>{/* Render table headers */}</TableHead>
+                <TableBody>
+                  {visibleRows.map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                        sx={{ cursor: "pointer" }}>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            onClick={(event) => handleClick(event, row.id)}
+                            inputProps={{
+                              "aria-labelledby": labelId,
+                            }}
+                          />
+                        </TableCell>
+
+                        <TableCell
+                          sx={({ paddingRight: "0px" }, { width: "80px" })}
+                          align="right">
+                          <img
+                            className="w-11 h-11 bg-contain"
+                            src={row.image}
+                            alt={row.title}
+                          />
+                        </TableCell>
+
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none">
+                          {row.title}
+                        </TableCell>
+                        <TableCell sx={{ width: "4%" }}>
+                          <div className="flex items-center pl-6 w-full justify-between gap-x-1">
+                            <AiOutlineMinusCircle
+                              className="text-base text-gray-600"
+                              onClick={() => removeFromCard(row)}
+                            />
+
+                            <div align="center" className="text-gray-600">
+                              {row.count}
+                            </div>
+                            {/* continue dark mode class */}
+                            <AiOutlinePlusCircle
+                              className="text-base text-gray-600 dark:text-gray-400"
+                              onClick={() => addToCard(row)}
+                            />
+                          </div>
+                        </TableCell>
+                        <TableCell align="right" className="dark:text-white">
+                          {row.price} AZN
+                        </TableCell>
+                        <TableCell align="right" className="dark:text-white">
+                          {row.totalRow.toFixed(2)} AZN
+                        </TableCell>
+                        <TableCell align="right">
+                          <RiDeleteBin2Line
+                            className="active:text-slate-950 text-gray-600 dark:text-gray-400"
+                            onClick={() => showDeleteModal(row)}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (dense ? 33 : 53) * emptyRows,
+                      }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <div className="w-full flex flex-col items-end mt-7  gap-y-3">
+              <div className="w-36 flex justify-end text-xl font-bold ">{`${basket.total.toFixed(
+                2
+              )} AZN`}</div>
+
+              <Button
+                to="/new-order"
+                LinkComponent={Link}
+                variant="outlined"
+                className="flex items-center"
+                sx={{
+                  width: "240px",
+                  borderRadius: "16px",
+                  padding: "2px 25px",
+                }}>
+                Submit Order
+              </Button>
+            </div>
+            <RemoveItemModal
+              isModalOpen={isModalOpen}
+              handleOk={handleOk}
+              handleCancel={hundelCancel}
             />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: "pointer" }}>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        onClick={(event) => handleClick(event, row.id)}
-                        inputProps={{
-                          "aria-labelledby": labelId,
-                        }}
-                      />
-                    </TableCell>
-
-                    <TableCell
-                      sx={({ paddingRight: "0px" }, { width: "80px" })}
-                      align="right">
-                      <img
-                        className="w-11 h-11 bg-contain"
-                        src={row.image}
-                        alt={row.name}
-                      />
-                    </TableCell>
-
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none">
-                      {row.name}
-                    </TableCell>
-                    <TableCell sx={{ width: "4%" }}>
-                      <div className="flex items-center pl-6 w-full justify-between gap-x-1">
-                        <AiOutlineMinusCircle className="text-base text-gray-600" />
-
-                        <div align="center" className="text-gray-600">
-                          {row.amount}
-                        </div>
-
-                        <AiOutlinePlusCircle className="text-base text-gray-600" />
-                      </div>
-                    </TableCell>
-                    <TableCell align="right">{row.price} AZN</TableCell>
-                    <TableCell align="right">{row.total} AZN</TableCell>
-                    <TableCell align="right">
-                      <RiDeleteBin2Line />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+          </>
+        )}
       </Paper>
     </Box>
   );
