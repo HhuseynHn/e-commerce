@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-
+import RemoveItemModal from "../../components/basket-modal/remove-item-modal";
 
 const ServicePage = () => {
   return (

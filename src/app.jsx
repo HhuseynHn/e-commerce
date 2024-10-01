@@ -12,6 +12,7 @@ import LoginPage from "./pages/login-page";
 
 import ProductDetails from "./pages/product-details";
 import ServicePage from "./pages/service-page";
+import BankAccount from "./pages/service-page/bank-accaunt/bank-aacount";
 
 function App() {
   const params = useParams();
@@ -32,6 +33,7 @@ function App() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/basket" element={<EnhancedTable />} /> // basket
+        <Route path="/new-order" element={<BankAccount />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />

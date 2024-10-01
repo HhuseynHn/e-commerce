@@ -1,15 +1,30 @@
 /** @format */
 
-import React, { memo, useState } from "react";
+import React, { memo, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import DarkMode from "../../dark-mode";
-
+import { GiHamburgerMenu } from "react-icons/gi";
 import { VscAccount } from "react-icons/vsc";
 import Language from "../../language";
 import { withTranslation } from "react-i18next";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import BasketCard from "../../basket-modal";
+import { CardContext } from "../../../context/card-context";
+
 const Header = (props) => {
+  const { basket } = useContext(CardContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const [text, setText] = useState();
+  const [isHidenModal, setIsHidenModal] = useState(false);
+  const hundleHidenModal = () => {
+    setIsHidenModal(!isHidenModal);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen); // toggle the hamburger menu
+  };
+
   const { t } = props;
 
   return (
@@ -26,9 +41,17 @@ const Header = (props) => {
               {t("eCommerce")}
             </span>
           </div>
+          <button
+            onClick={toggleMenu}
+            className="md:hidden text-3xl dark:text-white"
+            aria-label="Toggle Menu">
+            <GiHamburgerMenu />
+          </button>
 
           <div
-            className="hidden w-full md:block md:w-auto"
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } w-full md:block md:w-auto`}
             id="navbar-multi-level">
             <ul className="flex items-center flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 ">
               <li
@@ -145,13 +168,20 @@ const Header = (props) => {
               <li>
                 <Language />
               </li>
-              <li>
-                <Link
-                  to="/basket"
+              <li className="relative">
+                <div
+                  onClick={() => hundleHidenModal()}
                   className="flex dark:text-white hover:text-blue-600 gap-x-1 items-center cursor-pointer">
                   <AiOutlineShoppingCart />
                   <h3 className="text-xs">Basket</h3>
-                </Link>
+                  <sup className="text-rose-900 text-xs">{basket.count}</sup>
+                </div>
+
+                {isHidenModal && (
+                  <div className="fixed t-5 r-5">
+                    <BasketCard hundleHidenModal={hundleHidenModal} />
+                  </div>
+                )}
               </li>
             </ul>
           </div>
