@@ -119,7 +119,22 @@ export const CardProvider = ({ children }) => {
     });
   }
 
-  const globalState = { basket, addToCard, removeFromCard, deleteItem };
+  function deleteSelectedRow(product) {
+    setBasket((prevBasket) => {
+      let productList = [...prevBasket.products];
+      const foundProductIndex = productList.findIndex(
+        (prod) => prod.id == product.id
+      );
+    });
+  }
+
+  const globalState = {
+    basket,
+    addToCard,
+    removeFromCard,
+    deleteSelectedRow,
+    deleteItem,
+  };
 
   return (
     <CardContext.Provider value={globalState}>{children}</CardContext.Provider>

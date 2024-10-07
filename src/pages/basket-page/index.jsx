@@ -110,16 +110,22 @@ function getComparator(order, orderBy) {
 
 const headCells = [
   {
-    id: "image",
+    id: "chekbox",
     numeric: true,
     disablePadding: false,
     label: "",
   },
   {
+    id: "image",
+    numeric: true,
+    disablePadding: false,
+    label: " ",
+  },
+  {
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Product name",
+    label: "PRODUCT NAME",
   },
   {
     id: "count",
@@ -282,38 +288,45 @@ export default function EnhancedTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(55);
+
   const { basket, deleteItem, addToCard, removeFromCard } =
     useContext(CardContext);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [onlyOneItemDelete, setOnlyOneItemDelete] = useState(false);
 
+  // Delete selected rows from the basket
+  const handleDeleteSelected = () => {
+    if (selected.length > 0) {
+      setIsModalOpen(true);
+    }
+  };
   const showDeleteModal = (product) => {
+    setOnlyOneItemDelete(true);
     setProductToDelete(product);
     setIsModalOpen(true);
   };
   const handleOk = () => {
-    deleteItem(productToDelete);
-    setIsModalOpen(false);
+    if (!onlyOneItemDelete) {
+      //selected item delete
+      selected.forEach((id) => {
+        const productToDelete = basket.products.find((item) => item.id == id);
+        deleteItem(productToDelete);
+      });
+      setSelected([]);
+      setIsModalOpen(false);
+    } else {
+      // one buy one item delete
+      deleteItem(productToDelete);
+
+      setOnlyOneItemDelete(false);
+      setIsModalOpen(false);
+    }
   };
+
   const hundelCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event, id) => {
@@ -333,19 +346,6 @@ export default function EnhancedTable() {
       );
     }
     setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
   };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
@@ -385,9 +385,9 @@ export default function EnhancedTable() {
           <>
             {/* Table Headers (Hidden when basket is empty) */}
             <Typography
-              variant="h6"
+              variant="h4"
               align="center"
-              sx={{ padding: 2, fontSize: "24px", fontWeight: "bold" }}
+              sx={{ padding: 2, fontSize: "28px", fontWeight: "bold" }}
               className="dark:text-white">
               <div className="flex items-center gap-x-6 justify-center">
                 <div className="w-64 h-1 bg-slate-300"></div>
@@ -402,7 +402,37 @@ export default function EnhancedTable() {
                 sx={{ minWidth: 750 }}
                 aria-labelledby="tableTitle"
                 size={dense ? "small" : "medium"}>
-                <TableHead>{/* Render table headers */}</TableHead>
+                <TableHead>
+                  <TableRow sx={{ flex: "flex", alignItems: "items-center" }}>
+                    {" "}
+                    {headCells.map((headCell) => (
+                      <TableCell
+                        key={headCell.id}
+                        align={headCell.numeric ? "right" : "left"}
+                        padding={headCell.disablePadding ? "none" : "normal"}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                        className="dark:text-white"
+                        sx={{ verticalAlign: "midle" }}>
+                        {" "}
+                        {/* Added styling */}
+                        <TableSortLabel className="dark:text-white">
+                          {headCell.label}{" "}
+                          {/* Display the label for each header */}
+                        </TableSortLabel>
+                      </TableCell>
+                    ))}
+                    {/* All delete button visibilite */}
+                    {selected.length > 0 && (
+                      <div className="mt-2">
+                        <Tooltip title="Delete">
+                          <IconButton>
+                            <DeleteIcon onClick={handleDeleteSelected} />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    )}
+                  </TableRow>
+                </TableHead>
                 <TableBody>
                   {visibleRows.map((row, index) => {
                     const isItemSelected = isSelected(row.id);
@@ -415,7 +445,9 @@ export default function EnhancedTable() {
                         tabIndex={-1}
                         key={row.id}
                         selected={isItemSelected}
-                        sx={{ cursor: "pointer" }}>
+                        sx={{
+                          cursor: "pointer",
+                        }}>
                         <TableCell padding="checkbox">
                           <Checkbox
                             color="primary"
@@ -467,7 +499,9 @@ export default function EnhancedTable() {
                         <TableCell align="right" className="dark:text-white">
                           {row.totalRow.toFixed(2)} AZN
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell
+                          align="right"
+                          className="flex items-center justify-center">
                           <RiDeleteBin2Line
                             className="active:text-slate-950 text-gray-600 dark:text-gray-400"
                             onClick={() => showDeleteModal(row)}
